@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  servico1:
+    build: 
+      context: ./Servico1
+      dockerfile: Dockerfile
+    container_name: servico1
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./Servico1:/app
+    environment:
+      - FLASK_APP=run.py
+      - FLASK_ENV=development
+      - PYTHONPATH=/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - microservices-network
+
+  # servico2:
+  #   build:
+  #     context: ./Servico2
+  #     dockerfile: Dockerfile
+  #   container_name: servico2
+  #   networks:
+  #     - microservices-network
+
+  # servico3:
+  #   build:
+  #     context: ./Servico3
+  #     dockerfile: Dockerfile
+  #   container_name: servico3
+  #   networks:
+  #     - microservices-network
+
+networks:
+  microservices-network:
+    driver: bridge
