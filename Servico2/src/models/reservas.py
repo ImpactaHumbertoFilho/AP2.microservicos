@@ -1,5 +1,5 @@
 from sqlalchemy import Boolean, Column, Date, Integer
-from Servico2.src.config.base import Base
+from src.config.base import Base
 
 class Reserva(Base):
     __tablename__ = 'reservas'

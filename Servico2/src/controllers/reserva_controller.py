@@ -1,11 +1,11 @@
 from flask import Blueprint, request
 from sqlalchemy.orm import Session, joinedload
 from datetime import datetime
-from Servico2.src.config.base import SessionLocal
-from Servico2.src.models.reservas import Reserva
-from Servico2.src.models.response import Response
-from Servico2.src.services.turma_service import TurmaService
-from Servico2.src.docs.reserva_docs import list_reservas, get_reserva, create_reserva
+from src.config.base import SessionLocal
+from src.models.reservas import Reserva
+from src.models.response import Response
+from src.services.turma_service import TurmaService
+from src.docs.reserva_docs import list_reservas, get_reserva, create_reserva
 from flasgger import swag_from
 
 reserva_bp = Blueprint("reserva", __name__) 

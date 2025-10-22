@@ -1,11 +1,11 @@
 import os
 import sys
 
-# Adiciona o diretório raiz ao PYTHONPATH
-root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, root_path)
+# Adiciona o diretório atual ao PYTHONPATH
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, current_dir)
 
-from Servico2.src.main import create_app
+from src.main import create_app
 
 if __name__ == "__main__":
     app = create_app()

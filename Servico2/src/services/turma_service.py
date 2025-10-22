@@ -2,7 +2,7 @@ import requests
 from typing import Optional
 
 class TurmaService:
-    def __init__(self, base_url: str = "http://127.0.0.1:5000"):
+    def __init__(self, base_url: str = "http://servico1:5000"):
         self.base_url = base_url
 
     def get_turma(self, turma_id: int) -> Optional[dict]:

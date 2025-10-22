@@ -1,9 +1,9 @@
 
 from flask import Flask
-from Servico2.src.config.base import Base, engine
-from Servico2.src.models.response import Response
-from Servico2.src.controllers.reserva_controller import reserva_bp
-from Servico2.src.docs.swagger_config import setup_swagger
+from src.config.base import Base, engine
+from src.models.response import Response
+from src.controllers.reserva_controller import reserva_bp
+from src.docs.swagger_config import setup_swagger
 
 def create_app():
     app = Flask(__name__)

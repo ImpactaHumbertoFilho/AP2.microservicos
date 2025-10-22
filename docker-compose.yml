@@ -15,10 +15,11 @@ services:
       - FLASK_ENV=development
       - PYTHONPATH=/app
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      test: ["CMD", "curl", "-f", "http://localhost:5000/swagger/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
     restart: unless-stopped
     networks:
       - microservices-network
@@ -36,9 +37,16 @@ services:
       - FLASK_APP=run.py
       - FLASK_ENV=development
       - PYTHONPATH=/app
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:5001/swagger/')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
     depends_on:
       servico1:
         condition: service_healthy
+    restart: unless-stopped
     networks:
       - microservices-network
 
