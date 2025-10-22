@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 Base = declarative_base()
 
 # Engine centralizado
-engine = create_engine("sqlite:///banco_servico-2.db", echo=True)
+engine = create_engine("sqlite:///banco_servico2.db", echo=True)
 
 # Session factory
 SessionLocal = sessionmaker(bind=engine)

@@ -8,7 +8,7 @@ from src.docs.swagger_config import setup_swagger
 def create_app():
     app = Flask(__name__)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///banco_servico-2.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///banco_servico2.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     
     # Cria as tabelas

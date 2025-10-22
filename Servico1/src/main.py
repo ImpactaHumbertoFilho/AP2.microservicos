@@ -12,7 +12,7 @@ def create_app():
     app = Flask(__name__)
 
     # Config do banco (exemplo com SQLite, pode trocar por PostgreSQL/MySQL)
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///meu_banco.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///banco_servico1.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     
     # Cria as tabelas
