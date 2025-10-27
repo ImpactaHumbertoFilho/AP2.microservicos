@@ -5,7 +5,7 @@ from src.config.base import SessionLocal
 from src.models.reservas import Reserva
 from src.models.response import Response
 from src.services.turma_service import TurmaService
-from src.docs.reserva_docs import list_reservas, get_reserva, create_reserva
+from src.docs.reserva_docs import list_reservas, get_reserva, create_reserva, update_reserva, delete_reserva
 from flasgger import swag_from
 
 reserva_bp = Blueprint("reserva", __name__) 
@@ -96,5 +96,72 @@ def create_reserva():
     except Exception as e:
         session.rollback()
         return Response(f"Erro ao criar reserva: {str(e)}", status=500).to_response()
+    finally:
+        session.close()
+
+@reserva_bp.route("/<int:id>", methods=["PUT"])
+@swag_from(update_reserva)
+def update_reserva(id):
+    session = SessionLocal()
+    try:
+        data = request.get_json()
+        if not data:
+            return Response("Dados da reserva não fornecidos", status=400).to_response()
+
+        reserva = session.query(Reserva).filter(Reserva.id == id).first()
+        if reserva is None:
+            return Response("Reserva não encontrada", status=404).to_response()
+
+        if 'turma_id' in data:
+            turma_service = TurmaService()
+            turma = turma_service.get_turma(data['turma_id'])
+            
+            if not turma:
+                return Response("Turma não encontrada no Serviço 1", status=404).to_response()
+            
+            reserva.turma_id = data['turma_id']
+
+        if 'num_sala' in data:
+            reserva.num_sala = data['num_sala']
+
+        if 'laboratorio' in data:
+            reserva.laboratorio = data['laboratorio']
+
+        if 'data' in data:
+            try:
+                reserva.data = datetime.strptime(data['data'], '%Y-%m-%d').date()
+            except ValueError:
+                return Response("Formato de data inválido. Use YYYY-MM-DD", status=400).to_response()
+
+        session.commit()
+
+        return Response(
+            "Reserva atualizada com sucesso",
+            reserva.to_dict()
+        ).to_response()
+
+    except Exception as e:
+        session.rollback()
+        return Response(f"Erro ao atualizar reserva: {str(e)}", status=500).to_response()
+    finally:
+        session.close()
+
+@reserva_bp.route("/<int:id>", methods=["DELETE"])
+@swag_from(delete_reserva)
+def delete_reserva(id):
+    session = SessionLocal()
+    try:
+        reserva = session.query(Reserva).filter(Reserva.id == id).first()
+        if reserva is None:
+            return Response("Reserva não encontrada", status=404).to_response()
+
+        session.delete(reserva)
+        session.commit()
+
+        return Response("Reserva deletada com sucesso").to_response()
+
+    except Exception as e:
+        session.rollback()
+        return Response(f"Erro ao deletar reserva: {str(e)}", status=500).to_response()
     finally:
         session.close()

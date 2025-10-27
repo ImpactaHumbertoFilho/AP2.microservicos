@@ -190,3 +190,106 @@ create_reserva = {
         }
     }
 }
+
+
+update_reserva = {
+    "summary": "Atualiza uma reserva existente",
+    "tags": ["Reservas"],
+    "parameters": [
+        {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": True,
+            "description": "ID da reserva"
+        },
+        {
+            "name": "body",
+            "in": "body",
+            "required": True,
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "turma_id": {
+                        "type": "integer",
+                        "description": "ID da turma que será vinculada à reserva"
+                    },
+                    "num_sala": {
+                        "type": "integer",
+                        "description": "Número da sala"
+                    },
+                    "laboratorio": {
+                        "type": "boolean",
+                        "description": "Indica se é um laboratório",
+                        "default": False
+                    },
+                    "data": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Data da reserva (formato: YYYY-MM-DD)"
+                    }
+                }
+            }
+        }
+    ],
+    "responses": {
+        "200": {
+            "description": "Reserva atualizada com sucesso",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Reserva atualizada com sucesso"
+                    },
+                    "data": {
+                        "type": "object",
+                        "properties": {
+                            "reserva": {
+                                "type": "object",
+                                "properties": {
+                                    "id": { "type": "integer" },
+                                    "turma_id": { "type": "integer" },
+                                    "num_sala": { "type": "integer" },
+                                    "laboratorio": { "type": "boolean" },
+                                    "data": { "type": "string", "format": "date" }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "400": { "description": "Dados inválidos ou conflito" },
+        "404": { "description": "Reserva ou turma não encontrada" },
+        "500": { "description": "Erro interno" }
+    }
+}
+
+
+delete_reserva = {
+    "summary": "Deleta uma reserva por ID",
+    "tags": ["Reservas"],
+    "parameters": [
+        {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": True,
+            "description": "ID da reserva"
+        }
+    ],
+    "responses": {
+        "200": {
+            "description": "Reserva deletada com sucesso",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "message": { "type": "string", "example": "Reserva deletada com sucesso" }
+                }
+            }
+        },
+        "404": { "description": "Reserva não encontrada" },
+        "500": { "description": "Erro interno" }
+    }
+}
