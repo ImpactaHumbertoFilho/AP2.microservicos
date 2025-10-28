@@ -115,7 +115,7 @@ def update_reserva(id):
             turma = turma_service.get_turma(data['turma_id'])
             
             if not turma:
-                return Response("Turma não encontrada no Serviço 1", status=404).to_response()
+                return Response("Turma não encontrada no Serviço 1", status=400).to_response()
             
             reserva.turma_id = data['turma_id']
 
