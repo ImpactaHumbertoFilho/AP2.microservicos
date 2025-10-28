@@ -8,7 +8,8 @@ from src.services.turma_service import TurmaService
 from src.docs.reserva_docs import list_reservas, get_reserva, create_reserva, update_reserva, delete_reserva
 from flasgger import swag_from
 
-reserva_bp = Blueprint("reserva", __name__) 
+reserva_bp = Blueprint("reserva", __name__)
+turma_service = TurmaService()
 
 @reserva_bp.route("/", methods=["GET"])
 @swag_from(list_reservas)
@@ -34,7 +35,6 @@ def get_reserva(id):
         if reserva is None:
             return Response("Reserva não encontrada", status=404).to_response()
 
-        turma_service = TurmaService()
         turma = turma_service.get_turma(reserva.turma_id)
         if not turma:
             return Response("Turma não encontrada no Serviço 1", status=404).to_response()
@@ -59,7 +59,6 @@ def create_reserva():
             if field not in data:
                 return Response(f"Campo {field} é obrigatório", status=400).to_response()
 
-        turma_service = TurmaService()
         turma = turma_service.get_turma(data['turma_id'])
         if not turma:
             return Response("Turma não encontrada no Serviço 1", status=404).to_response()
@@ -113,7 +112,6 @@ def update_reserva(id):
             return Response("Reserva não encontrada", status=404).to_response()
 
         if 'turma_id' in data:
-            turma_service = TurmaService()
             turma = turma_service.get_turma(data['turma_id'])
             
             if not turma:
